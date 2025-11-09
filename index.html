@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptonaute Engager | Elite Trading Signals & Forex Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0c0f25 0%, #1a1a42 50%, #0d0e1f 100%);
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Dynamic Background Elements */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+        
+        .currency-symbol {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 6rem;
+            color: rgba(78, 205, 196, 0.3);
+        }
+        
+        .chart-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.4), transparent);
+            width: 200px;
+        }
+        
+        .candlestick {
+            width: 8px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .candlestick::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background: rgba(255, 107, 107, 0.5);
+            top: -15px;
+            left: 3px;
+        }
+        
+        .candlestick::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background: rgba(78, 205, 196, 0.5);
+            bottom: -15px;
+            left: 3px;
+        }
+        
+        .trend-line {
+            height: 3px;
+            width: 300px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.4), transparent);
+            transform: rotate(45deg);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .grid-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+        
+        .pulse-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(78, 205, 196, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 20px 5px rgba(78, 205, 196, 0.5);
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            padding: 60px 20px 30px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+            to { text-shadow: 0 0 25px rgba(78, 205, 196, 0.7), 0 0 40px rgba(69, 183, 209, 0.5); }
+        }
+        
+        .header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: #b0c8ff;
+            font-weight: 300;
+        }
+        
+        .stats-counter {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.08);
+            padding: 30px 40px;
+            border-radius: 20px;
+            min-width: 200px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-8px) scale(1.03);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        
+        .stat-value {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Trading Tools Section */
+        .tools-section {
+            background: linear-gradient(135deg, rgba(18, 25, 65, 0.9), rgba(10, 18, 55, 0.9));
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-header p {
+            font-size: 1.3rem;
+            color: #a0d2ff;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .tool-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .tool-card h3 {
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        .calculator-result {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(76, 220, 196, 0.15);
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, rgba(25, 32, 85, 0.9) 0%, rgba(18, 38, 95, 0.9) 100%);
+            color: white;
+            padding: 60px 50px;
+            border-radius: 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome-header p {
+            font-size: 1.3rem;
+            color: #a0d2ff;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .welcome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .welcome-card {
+            background: rgba(255,255,255,0.1);
+            padding: 35px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .welcome-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .welcome-card h3 {
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #4ecdc4;
+        }
+        
+        .welcome-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .welcome-card li {
+            margin: 18px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .cta-container {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 280px;
+            text-align: center;
+            border: none;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+        
+        .cta-button.mobile {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+        
+        .cta-button.telegram {
+            background: linear-gradient(45deg, #0088cc, #00bcd4);
+        }
+        
+        .cta-button.whatsapp {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+        
+        .training-channel {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .training-channel h3 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .training-channel p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .training-channel a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            transition: background 0.3s ease;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        .training-channel a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .ready-prompt {
+            background: rgba(255,255,255,0.2);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            border: 2px dashed rgba(255,255,255,0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ready-prompt h3 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        
+        .ready-prompt p {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Exness Account Creation Section */
+        .exness-section {
+            background: linear-gradient(135deg, rgba(18, 25, 65, 0.9), rgba(10, 18, 55, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        
+        .video-container iframe {
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .step-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: transform 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .step-card h3 {
+            margin: 20px 0 15px;
+            color: #4ecdc4;
+            font-size: 1.4rem;
+        }
+        
+        .step-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .exness-benefits {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(76, 220, 196, 0.15);
+            border-radius: 20px;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .exness-benefits h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4ecdc4;
+            font-size: 1.8rem;
+        }
+        
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .benefit-item i {
+            color: #ff6b6b;
+            font-size: 1.3rem;
+        }
+        
+        .social-proof {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 50px 0;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .testimonial {
+            padding: 30px;
+            margin: 25px 0;
+            border-left: 4px solid #4ecdc4;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+        
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: #4ecdc4;
+            font-size: 1.2rem;
+        }
+        
+        .benefits-section {
+            background: rgba(255,255,255,0.1);
+            padding: 60px 40px;
+            border-radius: 25px;
+            margin: 60px 0;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-15px);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+        }
+        
+        .benefit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: #4ecdc4;
+        }
+        
+        .benefit-card h3 {
+            margin-bottom: 20px;
+            font-size: 1.7rem;
+            color: #ff6b6b;
+        }
+        
+        .benefit-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .cta-section {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .cta-section p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #fff;
+            margin-top: 60px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .footer h3 {
+            color: #4ecdc4;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+        
+        .footer p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .footer a {
+            color: #4ecdc4;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .footer a:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+        
+        .ready-box {
+            background: rgba(76, 220, 196, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #4ecdc4;
+            margin-top: 30px;
+            max-width: 700px;
+            margin: 30px auto 0;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+            
+            .video-container iframe {
+                width: 100%;
+                height: 315px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 15px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.3rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .stat-box {
+                padding: 25px;
+                min-width: 160px;
+            }
+            
+            .stat-value {
+                font-size: 2.5rem;
+            }
+            
+            .tools-section,
+            .welcome-section,
+            .exness-section {
+                padding: 30px 20px;
+            }
+            
+            .cta-button {
+                min-width: 100%;
+            }
+            
+            .video-container iframe {
+                width: 100%;
+                height: 250px;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dynamic Background Elements -->
+    <div class="dynamic-bg" id="dynamicBg"></div>
+    <div class="grid-lines"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Cryptonaute Engager Elite Trading Signals</h1>
+            <p>Professional Forex & Crypto Trading Excellence with Real-time Data & Education</p>
+            
+            <div class="stats-counter">
+                <div class="stat-box">
+                    <div class="stat-value">30</div>
+                    <div>Active Traders</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">60%</div>
+                    <div>Success Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">24/7</div>
+                    <div>Support</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Tools Section -->
+        <div class="tools-section">
+            <div class="section-header">
+                <h2><i class="fas fa-calculator"></i> Trading Tools & Calculators</h2>
+                <p>Essential calculators for risk management and position sizing</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3><i class="fas fa-ruler"></i> Pip Value Calculator</h3>
+                    <div class="input-group">
+                        <label for="currencyPair">Currency Pair</label>
+                        <select id="currencyPair">
+                            <option value="EURUSD">EUR/USD</option>
+                            <option value="GBPUSD">GBP/USD</option>
+                            <option value="USDJPY">USD/JPY</option>
+                            <option value="AUDUSD">AUD/USD</option>
+                            <option value="USDCAD">USD/CAD</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="tradeSize">Trade Size (Lots)</label>
+                        <input type="number" id="tradeSize" value="1" min="0.01" step="0.01">
+                    </div>
+                    <button class="btn-calculate" id="pipCalcBtn">Calculate Pip Value</button>
+                    <div class="calculator-result">
+                        Pip Value: <span id="pipValueResult">$10.00</span>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-balance-scale"></i> Position Size Calculator</h3>
+                    <div class="input-group">
+                        <label for="accountBalance">Account Balance ($)</label>
+                        <input type="number" id="accountBalance" value="5000">
+                    </div>
+                    <div class="input-group">
+                        <label for="riskPercent">Risk Percentage (%)</label>
+                        <input type="number" id="riskPercent" value="1" min="0.1" max="100" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="stopLoss">Stop Loss (Pips)</label>
+                        <input type="number" id="stopLoss" value="20" min="1" step="1">
+                    </div>
+                    <button class="btn-calculate" id="posCalcBtn">Calculate Position Size</button>
+                    <div class="calculator-result">
+                        Position Size: <span id="positionSizeResult">0.25 lots</span>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-percentage"></i> Risk/Reward Calculator</h3>
+                    <div class="input-group">
+                        <label for="entryPrice">Entry Price</label>
+                        <input type="number" id="entryPrice" value="1.0850" step="0.0001">
+                    </div>
+                    <div class="input-group">
+                        <label for="stopLossPrice">Stop Loss Price</label>
+                        <input type="number" id="stopLossPrice" value="1.0830" step="0.0001">
+                    </div>
+                    <div class="input-group">
+                        <label for="takeProfitPrice">Take Profit Price</label>
+                        <input type="number" id="takeProfitPrice" value="1.0900" step="0.0001">
+                    </div>
+                    <button class="btn-calculate" id="rrCalcBtn">Calculate Risk/Reward</button>
+                    <div class="calculator-result">
+                        Risk/Reward Ratio: <span id="rrRatioResult">1:3.5</span>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-dollar-sign"></i> Profit Calculator</h3>
+                    <div class="input-group">
+                        <label for="positionSizeProfit">Position Size (Lots)</label>
+                        <input type="number" id="positionSizeProfit" value="1" min="0.01" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="pipsGained">Pips Gained</label>
+                        <input type="number" id="pipsGained" value="50" min="1" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="pipValueProfit">Pip Value ($)</label>
+                        <input type="number" id="pipValueProfit" value="10" min="0.01" step="0.01">
+                    </div>
+                    <button class="btn-calculate" id="profitCalcBtn">Calculate Profit</button>
+                    <div class="calculator-result">
+                        Profit: <span id="profitResult">$500.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2><i class="fas fa-graduation-cap"></i> Trading Education</h2>
+                <p>Learn essential trading concepts with practical examples</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3><i class="fas fa-exchange-alt"></i> Understanding Pips</h3>
+                    <p>A pip is the smallest price move that a currency pair can make. For most pairs, this is 0.0001. For JPY pairs, it's 0.01.</p>
+                    <p><strong>Example:</strong> If EUR/USD moves from 1.0850 to 1.0851, that's a 1 pip movement.</p>
+                    <p><strong>Calculation:</strong> Pip Value = (0.0001 / Exchange Rate) × Trade Size</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-sliders-h"></i> Spread & Commission</h3>
+                    <p>The spread is the difference between the bid and ask price. This is how most brokers make money.</p>
+                    <p><strong>Current EUR/USD Spread:</strong> 0.6 pips</p>
+                    <p><strong>Why it matters:</strong> Lower spreads mean less cost to enter a trade. Our recommended brokers offer spreads as low as 0.0 pips.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-percentage"></i> Risk Management</h3>
+                    <p>Never risk more than 1-2% of your account on a single trade. This ensures you can survive losing streaks.</p>
+                    <p><strong>Example:</strong> With a $5,000 account, don't risk more than $50-$100 per trade.</p>
+                    <p><strong>Position Size Formula:</strong> (Account Balance × Risk %) ÷ (Stop Loss in Pips × Pip Value)</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-chart-line"></i> Risk/Reward Ratio</h3>
+                    <p>A good risk/reward ratio ensures that your winning trades outweigh your losses.</p>
+                    <p><strong>Example:</strong> With a 1:3 risk/reward ratio, you only need to be right 25% of the time to break even.</p>
+                    <p><strong>Calculation:</strong> (Take Profit - Entry) ÷ (Entry - Stop Loss)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <div class="welcome-header">
+                    <h2>💎 Welcome to Cryptonaute Engager Elite Trading Signals!</h2>
+                    <p>I'm <strong>Bonnahin</strong>, your Exness trading mentor and market analyst.</p>
+                </div>
+                
+                <div class="welcome-grid">
+                    <div class="welcome-card">
+                        <h3><i class="fas fa-chart-line"></i> What You'll Get:</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Daily market analysis</li>
+                            <li><i class="fas fa-bullseye"></i> High-probability trade setups</li>
+                            <li><i class="fas fa-book"></i> Risk management education</li>
+                            <li><i class="fas fa-coins"></i> Profit-taking strategies</li>
+                            <li><i class="fas fa-headset"></i> 24/7 trading support</li>
+                            <li><i class="fas fa-lightbulb"></i> Market insights & trends</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="welcome-card">
+                        <h3><i class="fas fa-star"></i> Why I Chose Exness:</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 0.0 pip spreads = More profit</li>
+                            <li><i class="fas fa-bolt"></i> Instant withdrawals = Quick access to earnings</li>
+                            <li><i class="fas fa-wallet"></i> $0 minimum = Start with any amount</li>
+                            <li><i class="fas fa-shield-alt"></i> Regulated & secure platform</li>
+                            <li><i class="fas fa-mobile-alt"></i> Advanced mobile trading</li>
+                            <li><i class="fas fa-rocket"></i> Perfect for our trading signals</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="cta-container">
+                    <h3>Start Your Trading Journey Today:</h3>
+                    <div class="cta-buttons">
+                        <a href="https://one.exnesstrack.org/a/8849qnqcqy" class="cta-button pulse" target="_blank">
+                            <i class="fas fa-desktop"></i> Desktop Trading
+                        </a>
+                        <a href="https://one.exnesstrack.org/a/8849qnqcqy?platform=mobile" class="cta-button mobile pulse" target="_blank">
+                            <i class="fas fa-mobile-alt"></i> Mobile Trading
+                        </a>
+                        <a href="https://t.me/CryptonauteEngager" class="cta-button telegram pulse" target="_blank">
+                            <i class="fab fa-telegram"></i> Join Telegram Channel
+                        </a>
+                        <a href="https://chat.whatsapp.com/FfiDLx3vIr1EvTLKIY8Gxc" class="cta-button whatsapp pulse" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="training-channel">
+                    <h3><i class="fas fa-graduation-cap"></i> Training Channel</h3>
+                    <p>Find everything you need to grow your skills and become a market sniper!</p>
+                    <p>
+                        <i class="fab fa-telegram"></i> Telegram: 
+                        <a href="https://t.me/CryptonauteEngager" target="_blank">@CryptonauteEngager</a>
+                    </p>
+                </div>
+                
+                <div class="ready-prompt">
+                    <h3><i class="fas fa-rocket"></i> Ready to Start?</h3>
+                    <p>Reply "READY" to receive today's analysis!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exness Account Creation Section -->
+        <div class="exness-section">
+            <div class="section-header">
+                <h2><i class="fas fa-user-plus"></i> How to Create Your Exness Account</h2>
+                <p>Follow these simple steps to join the elite trading community and start your journey to financial freedom</p>
+            </div>
+            
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/X85g-fY_QMk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3><i class="fas fa-link"></i> Click the Registration Link</h3>
+                    <p>Use our exclusive partner link to ensure you get the best trading conditions and support from our team.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3><i class="fas fa-user-edit"></i> Fill Your Details</h3>
+                    <p>Enter your email, create a password, and provide basic personal information. This process takes less than 2 minutes.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3><i class="fas fa-check-circle"></i> Verify Your Account</h3>
+                    <p>Confirm your email address and upload required documents for account verification (ID and proof of address).</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3><i class="fas fa-wallet"></i> Fund Your Account</h3>
+                    <p>Deposit funds using your preferred method. Exness supports multiple payment options including bank transfers, e-wallets, and cryptocurrencies.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3><i class="fas fa-desktop"></i> Download Trading Platform</h3>
+                    <p>Download the Exness Trader app or MetaTrader 4/5 on your desktop or mobile device to start trading.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h3><i class="fas fa-signal"></i> Start Trading</h3>
+                    <p>Connect with our Telegram channel to receive trading signals and begin executing trades with our guidance.</p>
+                </div>
+            </div>
+            
+            <div class="exness-benefits">
+                <h3><i class="fas fa-gem"></i> Why Choose Exness?</h3>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>0.0 pip spreads on major pairs</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Instant withdrawals processed in seconds</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>$0 minimum deposit requirement</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Regulated and secure platform</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Advanced mobile trading experience</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>24/7 multilingual customer support</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-buttons" style="margin-top: 40px;">
+                <a href="https://one.exnesstrack.org/a/8849qnqcqy" class="cta-button pulse" target="_blank">
+                    <i class="fas fa-user-plus"></i> Create Exness Account Now
+                </a>
+                <a href="https://t.me/CryptonauteEngager" class="cta-button telegram pulse" target="_blank">
+                    <i class="fab fa-telegram"></i> Join Telegram for Support
+                </a>
+            </div>
+        </div>
+        
+        <div class="social-proof">
+            <h3 style="text-align: center; color: white; margin-bottom: 40px; font-size: 2.2rem;">
+                <i class="fas fa-comments"></i> What Our Traders Say
+            </h3>
+            <div class="testimonial">
+                <p>"Since joining Cryptonaute Engager, my trading profits have increased by 65%. Bonnahin's analysis is spot on! The combination of precise signals and the Exness platform has transformed my trading approach completely."</p>
+                <div class="testimonial-author">- Michael T., London</div>
+            </div>
+            <div class="testimonial">
+                <p>"The 0.0 pip spreads on Exness combined with these elite signals has been a game-changer. I've seen my profits increase while my stress levels decreased. The risk management education alone is worth joining!"</p>
+                <div class="testimonial-author">- Sarah K., New York</div>
+            </div>
+            <div class="testimonial">
+                <p>"I've tried many signal services, but Cryptonaute Engager stands out. The daily analysis is incredibly thorough, and the community support is exceptional. I've finally stopped making emotional trading decisions."</p>
+                <div class="testimonial-author">- David R., Sydney</div>
+            </div>
+        </div>
+        
+        <div class="benefits-section">
+            <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 40px; font-family: 'Montserrat', sans-serif; font-size: 2.8rem; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                Why Choose Cryptonaute Engager?
+            </h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Proven Strategies</h3>
+                    <p>Our elite signals are based on years of market analysis and successful trading strategies refined through thousands of trades.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Risk Management</h3>
+                    <p>Learn to protect your capital with our comprehensive risk management education that prioritizes capital preservation.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Market Insights</h3>
+                    <p>Daily analysis that helps you understand market movements and make informed decisions based on real-time data.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Support</h3>
+                    <p>Join a thriving community of traders sharing insights, strategies, and supporting each other's growth journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2><i class="fas fa-gem"></i> Join the Elite Trading Community Today!</h2>
+            <p>Ready to transform your trading with professional signals and mentorship from Bonnahin?</p>
+            <div class="cta-buttons">
+                <a href="https://t.me/CryptonauteEngager" class="cta-button" target="_blank">
+                    <i class="fab fa-telegram"></i> Join Telegram Channel
+                </a>
+                <a href="https://chat.whatsapp.com/FfiDLx3vIr1EvTLKIY8Gxc" class="cta-button whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                </a>
+                <a href="https://one.exnesstrack.org/a/8849qnqcqy" class="cta-button" target="_blank">
+                    <i class="fas fa-chart-line"></i> Start Trading with Exness
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h3><i class="fas fa-bullseye"></i> Cryptonaute Engager Elite Trading Signals</h3>
+            <p><i class="fas fa-user-tie"></i> <strong>Trading Mentor:</strong> Bonnahin</p>
+            <p><i class="fas fa-key"></i> <strong>Partner Code:</strong> 8849qnqcqy</p>
+            <p><i class="fab fa-telegram"></i> Telegram: <a href="https://t.me/CryptonauteEngager" target="_blank">@CryptonauteEngager</a></p>
+            <p><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://chat.whatsapp.com/FfiDLx3vIr1EvTLKIY8Gxc" target="_blank">Join Group</a></p>
+            <p><i class="fas fa-desktop"></i> Desktop: <a href="https://one.exnesstrack.org/a/8849qnqcqy" target="_blank">Open Account</a></p>
+            <p><i class="fas fa-mobile-alt"></i> Mobile: <a href="https://one.exnesstrack.org/a/8849qnqcqy?platform=mobile" target="_blank">Mobile Platform</a></p>
+            <div class="ready-box">
+                <p style="font-size: 1.3rem; margin: 0; font-weight: bold;">
+                    Ready to become a market expert? Say "READY" in our Telegram or WhatsApp group!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create dynamic background elements
+        const dynamicBg = document.getElementById('dynamicBg');
+        const currencySymbols = ['$', '€', '£', '¥', '₿', '₿', '₿', '€', '$', '£'];
+        const elementTypes = ['currency', 'chart-line', 'candlestick', 'trend-line'];
+        
+        // Create floating elements
+        for (let i = 0; i < 40; i++) {
+            const element = document.createElement('div');
+            const type = elementTypes[Math.floor(Math.random() * elementTypes.length)];
+            
+            element.className = 'floating-element';
+            
+            // Set random position
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.animationDelay = `${Math.random() * 20}s`;
+            element.style.animationDuration = `${15 + Math.random() * 25}s`;
+            
+            // Create different types of elements
+            if (type === 'currency') {
+                element.classList.add('currency-symbol');
+                element.textContent = currencySymbols[Math.floor(Math.random() * currencySymbols.length)];
+                element.style.fontSize = `${3 + Math.random() * 5}rem`;
+            } else if (type === 'chart-line') {
+                element.classList.add('chart-line');
+                element.style.width = `${100 + Math.random() * 200}px`;
+                element.style.transform = `rotate(${Math.random() * 360}deg)`;
+            } else if (type === 'candlestick') {
+                element.classList.add('candlestick');
+                element.style.height = `${20 + Math.random() * 60}px`;
+            } else if (type === 'trend-line') {
+                element.classList.add('trend-line');
+                element.style.width = `${150 + Math.random() * 250}px`;
+                element.style.transform = `rotate(${Math.random() * 360}deg)`;
+            }
+            
+            dynamicBg.appendChild(element);
+        }
+        
+        // Create pulsing dots
+        for (let i = 0; i < 15; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'pulse-dot';
+            dot.style.left = `${Math.random() * 100}%`;
+            dot.style.top = `${Math.random() * 100}%`;
+            dot.style.animationDelay = `${Math.random() * 3}s`;
+            dot.style.width = `${5 + Math.random() * 10}px`;
+            dot.style.height = dot.style.width;
+            dynamicBg.appendChild(dot);
+        }
+        
+        // Add pulse animation to CTA buttons periodically
+        setInterval(() => {
+            const buttons = document.querySelectorAll('.cta-button');
+            buttons.forEach(button => {
+                button.classList.add('pulse');
+                setTimeout(() => {
+                    button.classList.remove('pulse');
+                }, 2000);
+            });
+        }, 8000);
+        
+        // Trading Calculators
+        document.getElementById('pipCalcBtn').addEventListener('click', function() {
+            const tradeSize = parseFloat(document.getElementById('tradeSize').value) || 1;
+            const pipValue = tradeSize * 10;
+            document.getElementById('pipValueResult').textContent = `$${pipValue.toFixed(2)}`;
+        });
+        
+        document.getElementById('posCalcBtn').addEventListener('click', function() {
+            const balance = parseFloat(document.getElementById('accountBalance').value) || 5000;
+            const riskPercent = parseFloat(document.getElementById('riskPercent').value) || 1;
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value) || 20;
+            
+            const riskAmount = balance * (riskPercent / 100);
+            const pipValue = 10; // Assuming USD pairs for simplicity
+            const positionSize = riskAmount / (stopLoss * pipValue);
+            
+            document.getElementById('positionSizeResult').textContent = `${positionSize.toFixed(2)} lots`;
+        });
+        
+        document.getElementById('rrCalcBtn').addEventListener('click', function() {
+            const entry = parseFloat(document.getElementById('entryPrice').value) || 1.0850;
+            const stopLoss = parseFloat(document.getElementById('stopLossPrice').value) || 1.0830;
+            const takeProfit = parseFloat(document.getElementById('takeProfitPrice').value) || 1.0900;
+            
+            const risk = Math.abs(entry - stopLoss);
+            const reward = Math.abs(takeProfit - entry);
+            const ratio = (reward / risk).toFixed(1);
+            
+            document.getElementById('rrRatioResult').textContent = `1:${ratio}`;
+        });
+        
+        document.getElementById('profitCalcBtn').addEventListener('click', function() {
+            const positionSize = parseFloat(document.getElementById('positionSizeProfit').value) || 1;
+            const pipsGained = parseFloat(document.getElementById('pipsGained').value) || 50;
+            const pipValue = parseFloat(document.getElementById('pipValueProfit').value) || 10;
+            
+            const profit = positionSize * pipsGained * pipValue;
+            document.getElementById('profitResult').textContent = `$${profit.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
